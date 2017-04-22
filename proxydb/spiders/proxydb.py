@@ -7,7 +7,7 @@ db = client.proxydb
 
 class proxydb(scrapy.Spider):
 	name = "proxydb"
-	start_urls = ['http://proxydb.net/?anonlvl=4&country=CN&offset=0']
+	start_urls = ['http://proxydb.net/?anonlvl=4&country=CN&availability=75&offset=0']
 
 	def parse(self,response):
 
@@ -20,5 +20,9 @@ class proxydb(scrapy.Spider):
 
 	def parse_page(self,response):
 		proxy_add = response.xpath('//tbody/tr/td/a/text()').extract()
+
 		for address in proxy_add:
-			db.address.insert({'address_ip':address})
+			ip_count = db.address.count()
+			if db.address.find_one({"address_ip":address})==None:
+				ip_count = db.address.count()
+				db.address.insert({'address_ip':address,'ip_index':(ip_count+1)})
