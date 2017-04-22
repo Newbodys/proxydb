@@ -21,4 +21,4 @@ class proxydb(scrapy.Spider):
 	def parse_page(self,response):
 		proxy_add = response.xpath('//tbody/tr/td/a/text()').extract()
 		for address in proxy_add:
-			db.address.insert({'address_ip':proxy_add})
+			db.address.insert({'address_ip':address})
