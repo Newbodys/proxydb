@@ -21,3 +21,4 @@ class proxydb(scrapy.Spider):
 		client = MongoClient('localhost',27017)
 		db = client.proxy
 		db.address.insert({'proxy_add':proxy_add})
+		print "add"
