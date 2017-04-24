@@ -1,5 +1,4 @@
 import scrapy
-import math
 from pymongo import MongoClient
 
 client = MongoClient('localhost',27017)
@@ -7,7 +6,7 @@ db = client.proxydb
 
 class proxydb(scrapy.Spider):
 	name = "proxydb"
-	start_urls = ['http://proxydb.net/?anonlvl=4&country=CN&availability=75&offset=0']
+	start_urls = ['http://proxydb.net/?protocol=http&anonlvl=4&country=CN&availability=75&offset=0']
 
 	def parse(self,response):
 
@@ -15,7 +14,7 @@ class proxydb(scrapy.Spider):
 		proxy_num = int(proxy_num_str[0])
 
 		for num in xrange(0,proxy_num,50):
-			proxy_url = 'http://proxydb.net/?anonlvl=4&country=CN&offset='+str(num)
+			proxy_url = 'http://proxydb.net/?protocol=http&anonlvl=4&country=CN&availability=75&offset='+str(num)
 			yield scrapy.Request(url=proxy_url,callback=self.parse_page)
 
 	def parse_page(self,response):
